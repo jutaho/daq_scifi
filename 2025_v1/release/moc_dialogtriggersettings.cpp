@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../dialogtriggersettings.h"
+#include "../dialogtriggersettings.h"
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>

@@ -16,7 +16,7 @@ win32 {
 
 greaterThan(QT_MAJOR_VERSION, 5): QT += widgets printsupport
 
-TARGET = hit2025v1
+TARGET = hit2025v2
 TEMPLATE = app
 
 

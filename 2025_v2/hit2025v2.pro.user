@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 14.0.2, 2025-02-24T19:47:26. -->
+<!-- Written by QtCreator 14.0.2, 2025-02-24T19:54:00. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -191,7 +191,7 @@
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/daq_scifi/2025_v1</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/daq_scifi/2025_v2</value>
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">2</value>
   </valuemap>

@@ -6,16 +6,14 @@
 #include "hw.h"
 #include "display.h"
 
-
 typedef struct
 {
     int nr;
     QString name;
-    int nr_sensors; //this is commonly 2*nr_devices or 2*nr_devices-1
+    int nr_sensors; // typically 2*nr_devices or 2*nr_devices-1
     int nr_devices;
     QVector<Device*> devices;
 } PlaneConfig;
-
 
 class DisplayServer : public QObject
 {

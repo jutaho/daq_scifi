@@ -2,7 +2,6 @@
 
 DisplayServer::DisplayServer(QObject *parent) : QObject(parent)
 {
-
 }
 
 DisplayServer::~DisplayServer()
@@ -20,7 +19,7 @@ PlaneConfig* DisplayServer::findPlane(int plane_nr)
             return planeConfig[plane];
     }
 
-        //create new plane if not found
+    // Create new plane if not found
     PlaneConfig* new_plane = new PlaneConfig;
     new_plane->nr = plane_nr;
     new_plane->name = QString("Plane %1").arg(plane_nr);
@@ -30,16 +29,14 @@ PlaneConfig* DisplayServer::findPlane(int plane_nr)
     return new_plane;
 }
 
-
 void DisplayServer::setup(HW* hw)
 {
-    unsetup();  //hide is inside;)
+    unsetup();  // Ensure previous configuration is cleared.
     theHW = hw;
 
     for (int dev_nr = 0; dev_nr < theHW->devices.length(); dev_nr++)
     {
         PlaneConfig* current_plane = findPlane(theHW->devices[dev_nr]->deviceConfig.plane);
-
         current_plane->devices.append(theHW->devices[dev_nr]);
         current_plane->nr_devices++;
         current_plane->nr_sensors += theHW->devices[dev_nr]->deviceConfig.nr_sensors;
@@ -55,7 +52,6 @@ void DisplayServer::unsetup()
         planeConfig[plane_nr] = NULL;
     }
     planeConfig.clear();
-
 }
 
 //********************************************
@@ -84,7 +80,6 @@ void DisplayServer::hide()
             delete displays[plane];
         }
         displays.clear();
-
         active = 0;
     }
 }
@@ -100,35 +95,32 @@ void DisplayServer::plot()
 
     for (int plane = 0; plane < planeConfig.length(); plane++)
     {
-            //initialize buffer
-        displays[plane]->buffer.resize(planeConfig[plane]->nr_sensors*64);
+        // Initialize display buffers
+        displays[plane]->buffer.resize(planeConfig[plane]->nr_sensors * 64);
         displays[plane]->rmsbuffer.resize(4);
 
-            //fill with data
+        // Fill with data from each device in the current plane
         int current_base = 0;
         for (int dev_nr = 0; dev_nr < planeConfig[plane]->nr_devices; dev_nr++)
         {
             int dev_id = planeConfig[plane]->devices[dev_nr]->deviceConfig.device_id;
             int nr_channels = planeConfig[plane]->devices[dev_nr]->deviceConfig.nr_channels();
             if (nr_channels > lastFrame[dev_id].buffer_size)
-                nr_channels = lastFrame[dev_id].buffer_size;    //check if there's really some data in the buffer
-                //WARNING!!! Device order is not yet implemented!!! (probably)
+                nr_channels = lastFrame[dev_id].buffer_size;    // Check if there's actually data in the buffer
+            // Note: device order mapping is not yet implemented!
             for (int i = 0; i < nr_channels; i++)
-                displays[plane]->buffer[current_base+i] = lastFrame[dev_id].sensor_data[i];
+                // Replace sensor_data with raw_data
+                displays[plane]->buffer[current_base + i] = lastFrame[dev_id].raw_data[i];
             current_base += nr_channels;
             displays[plane]->rmsbuffer[0] = lastFrame[dev_id].rms_frame.mean;
             displays[plane]->rmsbuffer[1] = lastFrame[dev_id].rms_frame.sigma;
             displays[plane]->rmsbuffer[2] = lastFrame[dev_id].rms_frame.max;
             displays[plane]->rmsbuffer[3] = lastFrame[dev_id].rms_frame.status;
-
         }
-            //plot
+        // Plot the data on the display
         displays[plane]->plot();
     }
 }
-
-
-
 
 int DisplayServer::isActive()
 {

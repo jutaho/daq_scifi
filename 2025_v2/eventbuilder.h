@@ -10,22 +10,19 @@
 #include <QMutexLocker>
 #include <QQueue>
 #include <QWaitCondition>
-//#include "hw.h"
 #include "datareceiver.h"
-#include <immintrin.h> // Include for Intel Intrinsics
-#include <emmintrin.h> // Include for SSE2
+#include <immintrin.h> // Intel Intrinsics
+#include <emmintrin.h> // SSE2
 
-    //The event builder will constantly keep some data in the buffers to enable synchronization of the devices. So:
-#define EVB_MIN_BUFFER_OCCUPANCY    (RECEIVER_BUFFER_SIZE / 8)      //the EVB will wait until so much data is in each device buffer
-#define EVB_MAX_BUFFER_OCCUPANCY    (RECEIVER_BUFFER_SIZE / 2)      //or so much in at least one
-
-
+// The event builder will constantly keep some data in the buffers to enable synchronization of the devices.
+#define EVB_MIN_BUFFER_OCCUPANCY    (RECEIVER_BUFFER_SIZE / 8)      // Wait until each device buffer has this many items.
+#define EVB_MAX_BUFFER_OCCUPANCY    (RECEIVER_BUFFER_SIZE / 2)      // Or when at least one reaches this threshold.
 
 class EventBuilder : public QObject
 {
     Q_OBJECT
 public:
-    explicit EventBuilder( QObject *parent = 0);
+    explicit EventBuilder(QObject *parent = 0);
     ~EventBuilder();
 
     void addSource(DataReceiver *source);
@@ -34,9 +31,10 @@ public:
     void stopLogging();
     int isLogging();
     QVector<BufferData> getLastFrame();
-    QVector<BufferData> getNewFrame();  //as getLastFrame(), but ensures that the frame is new, i.e. no frame will be read twice
-    void recalculateChannels(); //recalculate baseAddresses
+    QVector<BufferData> getNewFrame();  // Returns a new frame (ensuring no frame is read twice)
+    void recalculateChannels();         // Recalculate baseAddresses
     void setChannelCount(int sensor_nr, int nr_channels);
+
 signals:
     void sigInit();
     void sigDeinit();
@@ -44,41 +42,34 @@ signals:
     void sigStopLogging();
     void sigStartTakingHistos(int);
     void sigStopTakingHistos();
+    void sigHistoCompleted();   // Notify user that the histogram is ready
+    void dataReady(const QByteArray& data); // Data readiness signal
 
-    void sigHistoCompleted();   //this is a public signal which can be used to notify user that the histo is ready
-    // Define a signal to notify when postdata is updated
-    void dataReady(const QByteArray& data); // Define a signal for data readiness
 public slots:
     void onNewData(DataReceiver *receiver);
-    // Add a public slot to receive and store data
     void receiveData(const QByteArray &data);
-
-
-    // Add a method to get data from the queue
     QByteArray getNextData();
-
 
 protected:
     int checkBufferOccupancies();
     int findLowestId();
     void logDataToFile();
-    void init();    //run after moving to thread
+    void init();    // Called after moving to the thread
     void deinit();
 
     QThread thread;
-    QSemaphore initSemaphore; 
+    QSemaphore initSemaphore;
 
     QVector<DataReceiver*> receivers;
 
     QVector<BufferData> currentFrame;
     signed short * copy_sensor_data;
     QVector<BufferData> backgroundFrame;
-
     QVector<BufferData> lastFrame;
 
-    QVector<unsigned short> baseAddresses; //base channel numbers for receivers
-    QVector<unsigned short> channelCounts; //and numbers of channels
-    unsigned short totalChannels;   //we like unsigned shorts to put them directly into the data file
+    QVector<unsigned short> baseAddresses; // Base channel numbers for receivers
+    QVector<unsigned short> channelCounts;   // Number of channels per board
+    unsigned short totalChannels;            // Total channels (to write directly into file)
     unsigned short totalBoards;
 
     QMutex lastFrameMutex;
@@ -102,7 +93,6 @@ private:
     QQueue<QByteArray> dataQueue;
     QMutex mutex;
     QWaitCondition dataAvailable;
-
 };
 
 #endif // EVENTBUILDER_H

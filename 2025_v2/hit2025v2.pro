@@ -52,8 +52,7 @@ HEADERS  += mainwindow.h \
     networkthread.h \
     qcustomplot.h \
     display.h \
-    displayserver.h \
-    scifi.h
+    displayserver.h
 
 FORMS    += mainwindow.ui \
     dialoglogsettings.ui \

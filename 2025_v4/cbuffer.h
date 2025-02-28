@@ -24,20 +24,19 @@ public:
         return prvNrItems();
     }
 
-    // Push an item into the buffer; returns 1 if successful, 0 if full.
+    // Push an item; returns 1 if successful, 0 if full.
     int push(const T &to_push)
     {
         QMutexLocker locker(&mutex);
         if (prvNrItems() >= (size - 1))
             return 0; // Buffer full
-
         data[push_ptr++] = to_push;
         if (push_ptr >= size)
             push_ptr = 0;
         return 1;
     }
 
-    // Pop an item from the buffer and store it in 'popped'; returns 1 if successful, 0 if empty.
+    // Pop an item into 'popped'; returns 1 if successful, 0 if empty.
     int pop(T &popped)
     {
         QMutexLocker locker(&mutex);
@@ -49,17 +48,16 @@ public:
         return 1;
     }
 
-    // Return the next item without removing it.
+    // Peek at the next item without removing it.
     T look()
     {
         QMutexLocker locker(&mutex);
-        T looked = T();
         if (prvNrItems() > 0)
-            looked = data[pop_ptr];
-        return looked;
+            return data[pop_ptr];
+        return T();
     }
 
-    // Remove the next item from the buffer without returning it.
+    // Remove the next item without returning it.
     void dump()
     {
         QMutexLocker locker(&mutex);
@@ -69,7 +67,6 @@ public:
         }
     }
 
-    // Clear the buffer.
     void clear()
     {
         QMutexLocker locker(&mutex);
@@ -78,11 +75,12 @@ public:
     }
 
 protected:
-    T* data;
+    // Declare members in the same order as in the initializer list:
+    int size;
     int push_ptr;
     int pop_ptr;
-    int size;
     QMutex mutex;
+    T* data;
 
     int prvNrItems()
     {

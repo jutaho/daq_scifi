@@ -34,10 +34,12 @@ void DataReceiver::init()
 void DataReceiver::deinit()
 {
     if (dataSocket) {
+        dataSocket->close();
         delete dataSocket;
         dataSocket = nullptr;
     }
     if (timer) {
+        timer->stop();
         delete timer;
         timer = nullptr;
     }
@@ -82,9 +84,12 @@ void DataReceiver::readData()
                               dmaBunch * getDataRawBlockSize(sensorsPerBoard) +
                               DATA_RMS_FRAME_SIZE);
             BufferData data_to_push(sensorsPerBoard * DATA_SAMPLES_PER_SENSOR);
+            // Copy sync header:
             memcpy(&data_to_push.sync_frame, tmpBuffer + base + DATA_PACKET_HEADER_SIZE, DATA_SYNC_HEADER_SIZE);
+            // Copy raw data:
             int raw_offset = base + DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE;
             memcpy(data_to_push.raw_data, tmpBuffer + raw_offset, sensorsPerBoard * DATA_SAMPLES_PER_SENSOR * DATA_BYTES_PER_SAMPLE);
+            // Copy RMS frame:
             memcpy(&data_to_push.rms_frame, tmpBuffer + base + DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE + dmaBunch * getDataRawBlockSize(sensorsPerBoard), DATA_RMS_FRAME_SIZE);
             if (outputEnabled)
                 dataBuffer.push(data_to_push);

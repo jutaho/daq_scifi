@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QVector>
 #include "device.h"
+#include "datareceiver.h"
 
 class HW : public QObject
 {
@@ -12,7 +13,6 @@ public:
     explicit HW(QObject *parent = nullptr);
     ~HW();
 
-    QVector<Device*> devices;
     void addDevices(int nr_devices);
     void removeDevices();
     void connectDevices();
@@ -20,14 +20,21 @@ public:
     void run();
     void stop();
     QString report();
-
     QVector<BufferData> getLatestFrames();
     QString saveRawData(const QString &filename);
     void configureDevice(int dev_nr, DeviceConfig dc);
+    QVector<Device*>& getDevices();
 
 signals:
+    void connectionStatusChanged(bool connected);
 
-public slots:
+private slots:
+    void onDeviceConnected();
+    void onDeviceDisconnected();
+
+private:
+    QVector<Device*> devices;
+    int connectedDevices = 0;
 };
 
-#endif // HW_H
+#endif

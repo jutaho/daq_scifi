@@ -10,6 +10,7 @@
 #include <QHostAddress>
 #include <cstring>
 
+// Basic constants
 #define RECEIVER_BUFFER_SIZE        10000
 #define RECEIVER_TIMER_PERIOD_MS    200
 #define RECEIVER_FRAMES_PER_SIG     100
@@ -37,7 +38,9 @@ inline int getExpectedPacketSize(int sensorsPerBoard, int dmaBunch, int ethBunch
 #define DATA_MAX_BUNCH              16
 #define DATA_MAX_PACKET_SIZE  ( DATA_MAX_BUNCH * ( DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE + (DATA_MAX_SENSORS_PER_BOARD * DATA_SAMPLES_PER_SENSOR * DATA_BYTES_PER_SAMPLE) + DATA_RMS_FRAME_SIZE ) )
 
-typedef struct {
+// Structures for sync and RMS frames
+typedef struct
+{
     unsigned short local_ctr;
     unsigned short global_ctr;
     unsigned short sma_state;
@@ -54,21 +57,26 @@ typedef struct {
     unsigned short registers[4];
 } RMSFrame;
 
+// BufferData holds raw sensor data only.
 class BufferData
 {
 public:
     SyncFrame sync_frame;
     RMSFrame rms_frame;
     int buffer_size;
-    unsigned short* raw_data; // Only raw data, no calibration data
+    unsigned short* raw_data; // Raw sensor data
 
     BufferData() : buffer_size(0), raw_data(nullptr) {}
 
-    explicit BufferData(int size) : buffer_size(0), raw_data(nullptr) { resize(size); }
+    explicit BufferData(int size) : buffer_size(0), raw_data(nullptr)
+    {
+        resize(size);
+    }
 
     void resize(int size)
     {
-        if (size == buffer_size) return;
+        if (size == buffer_size)
+            return;
         if (raw_data) {
             delete[] raw_data;
             raw_data = nullptr;
@@ -90,7 +98,8 @@ public:
 
     BufferData &operator=(const BufferData &other)
     {
-        if (this == &other) return *this;
+        if (this == &other)
+            return *this;
         sync_frame = other.sync_frame;
         rms_frame  = other.rms_frame;
         resize(other.buffer_size);

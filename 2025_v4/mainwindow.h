@@ -18,17 +18,22 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
 private slots:
+    void onConnectClicked();
     void onStartStopClicked();
     void onSaveDataClicked();
     void updateDisplay();
+    void handleConnectionStatus(bool connected);
+    void logMessage(const QString &message);
 
 private:
     Ui::MainWindow *ui;
-    HW *hw;                   // Hardware manager (manages devices)
-    Display *displayWidget;   // Widget for online visualization of raw data
-    QTimer *updateTimer;      // Timer to refresh display periodically
+    HW *hw;
+    Display *displayWidget;
+    QTimer *updateTimer;
     bool running;
+    bool connected;
 };
 
-#endif // MAINWINDOW_H
+#endif

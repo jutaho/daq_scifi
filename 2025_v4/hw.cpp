@@ -1,11 +1,9 @@
 #include "hw.h"
+#include <QDebug>
 #include <QFile>
 #include <QDataStream>
-#include <QDebug>
 
-HW::HW(QObject *parent) : QObject(parent)
-{
-}
+HW::HW(QObject *parent) : QObject(parent), connectedDevices(0) {}
 
 HW::~HW()
 {
@@ -14,85 +12,53 @@ HW::~HW()
 
 void HW::addDevices(int nr_devices)
 {
-    for (int i = 0; i < nr_devices; i++) {
-        Device *newDev = new Device(this);
-        devices.append(newDev);
+    for (int i = 0; i < nr_devices; i++)
+    {
+        Device* dev = new Device(this);
+        devices.append(dev);
+        qDebug() << "Added device" << i;
     }
 }
 
 void HW::removeDevices()
 {
-    for (int i = 0; i < devices.size(); i++) {
-        delete devices[i];
-    }
+    qDeleteAll(devices);
     devices.clear();
 }
 
 void HW::connectDevices()
 {
-    for (int i = 0; i < devices.size(); i++) {
-        devices[i]->connectDevice();
-    }
-}
+    qDebug() << "HW::connectDevices() called.";
+    qDebug() << "Number of devices:" << devices.size();
 
-void HW::disconnectDevices()
-{
-    for (int i = 0; i < devices.size(); i++) {
-        devices[i]->disconnectDevice();
-    }
-}
-
-void HW::run()
-{
-    for (int i = 0; i < devices.size(); i++) {
-        devices[i]->startAcq();
-    }
-}
-
-void HW::stop()
-{
-    for (int i = 0; i < devices.size(); i++) {
-        devices[i]->stopAcq();
-    }
-}
-
-QString HW::report()
-{
-    QString rep;
-    for (int i = 0; i < devices.size(); i++) {
-        rep += QString("Device %1: %2 fps\n").arg(i).arg(devices[i]->getFrameRate());
-    }
-    return rep;
-}
-
-QVector<BufferData> HW::getLatestFrames()
-{
-    QVector<BufferData> frames;
-    for (int i = 0; i < devices.size(); i++) {
-        BufferData frame = devices[i]->dataReceiver.dataBuffer.look();
-        frames.append(frame);
-    }
-    return frames;
-}
-
-QString HW::saveRawData(const QString &filename)
-{
-    QFile file(filename);
-    if (!file.open(QIODevice::WriteOnly)) {
-        return QString("Failed to open file for writing");
-    }
-    QDataStream out(&file);
-    for (int i = 0; i < devices.size(); i++) {
-        BufferData frame = devices[i]->dataReceiver.dataBuffer.look();
-        out.writeRawData((const char*)frame.raw_data, frame.buffer_size * sizeof(unsigned short));
-    }
-    file.close();
-    return QString();
-}
-
-void HW::configureDevice(int dev_nr, DeviceConfig dc)
-{
-    if (dev_nr < 0 || dev_nr >= devices.size())
+    if (devices.isEmpty()) {
+        qDebug() << "No devices to connect!";
+        emit connectionStatusChanged(false);
         return;
-    devices[dev_nr]->configure(dc);
+    }
+
+    for (Device* dev : devices) {
+        connect(dev, &Device::connectionStatusChanged, this, &HW::onDeviceConnected);
+        dev->connectDevice();
+    }
+}
+
+void HW::onDeviceConnected()
+{
+    connectedDevices++;
+    emit connectionStatusChanged(true);
+}
+
+void HW::onDeviceDisconnected()
+{
+    connectedDevices--;
+    if (connectedDevices <= 0) {
+        emit connectionStatusChanged(false);
+    }
+}
+
+
+QVector<Device*>& HW::getDevices()
+{
+    return devices;
 }

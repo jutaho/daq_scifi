@@ -6,7 +6,6 @@
 #include <QThread>
 #include "device.h"
 #include "eventbuilder.h"
-#include "networkthread.h"
 class HW : public QObject
 {
     Q_OBJECT

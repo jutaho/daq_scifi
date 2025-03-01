@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <streambuf>
-#include <string>
 
 #include <QTextBrowser>
 #include <QtGlobal>

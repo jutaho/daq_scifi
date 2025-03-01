@@ -10,9 +10,9 @@ release/dialogtriggersettings.o
 release/dialogdevices.o
 release/helpers.o
 release/eventbuilder.o
-release/qcustomplot.o
 release/display.o
 release/displayserver.o
+release/qcustomplot.o
 release/moc_mainwindow.o
 release/moc_dialoglogsettings.o
 release/moc_device.o
@@ -23,6 +23,6 @@ release/moc_dialogtriggersettings.o
 release/moc_dialogdevices.o
 release/moc_eventbuilder.o
 release/moc_networkthread.o
-release/moc_qcustomplot.o
 release/moc_display.o
 release/moc_displayserver.o
+release/moc_qcustomplot.o

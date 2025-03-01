@@ -32,9 +32,9 @@ SOURCES += main.cpp\
     dialogdevices.cpp \
     helpers.cpp \
     eventbuilder.cpp \
-    qcustomplot.cpp \
     display.cpp \
-    displayserver.cpp
+    displayserver.cpp \
+    qcustomplot.cpp
 
 HEADERS  += mainwindow.h \
     Q_DebugStream.h \
@@ -50,9 +50,9 @@ HEADERS  += mainwindow.h \
     cbuffer.h \
     eventbuilder.h \
     networkthread.h \
-    qcustomplot.h \
     display.h \
-    displayserver.h
+    displayserver.h \
+    qcustomplot.h
 
 FORMS    += mainwindow.ui \
     dialoglogsettings.ui \

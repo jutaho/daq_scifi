@@ -37,6 +37,8 @@ void HW::addDevices(int nr_devices)
     }
 }
 
+
+
 void HW::removeDevices()
 {
     eventBuilder.deleteSources();
@@ -51,6 +53,7 @@ void HW::configureDevice(int dev_nr, DeviceConfig dc)
     (*this)[dev_nr].configure(dc);
     eventBuilder.setChannelCount(dev_nr, dc.max_channels());
 }
+
 
 void HW::connectDevices()
 {

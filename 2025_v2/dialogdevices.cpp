@@ -256,3 +256,6 @@ void DialogDevices::on_spinNrDevices_valueChanged(int arg1)
     if (initialized)
         importSettings();
 }
+
+
+

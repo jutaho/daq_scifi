@@ -2,129 +2,111 @@
 #define CBUFFER_H
 
 #include <QMutex>
+#include <QDebug>
 
-template <class T> class CBuffer
+template <class T>
+class CBuffer
 {
 public:
-
-    CBuffer(int queueSize)
+    explicit CBuffer(int queueSize)
     {
+        if (queueSize <= 0) {
+            qCritical("CBuffer initialized with invalid queue size: %d", queueSize);
+            throw std::invalid_argument("CBuffer queueSize must be greater than 0");
+        }
+
         data = new T[queueSize];
         size = queueSize;
         push_ptr = 0;
         pop_ptr = 0;
-    };
+    }
 
     ~CBuffer()
     {
         delete[] data;
-    };
+    }
 
     int nrItems()
     {
-        int result;
-        mutex.lock();
-        result = prvNrItems();
-        mutex.unlock();
-        return result;
-    };
+        QMutexLocker locker(&mutex);
+        return prvNrItems();
+    }
 
     int push(const T &to_push)
     {
-        mutex.lock();
+        QMutexLocker locker(&mutex);
         if (prvNrItems() >= (size - 1))
-        {
-            mutex.unlock();
-            return 0;   //queue full!
-        }
+            return 0; // queue full!
 
         data[push_ptr++] = to_push;
         if (push_ptr >= size)
             push_ptr = 0;
 
-        mutex.unlock();
         return 1;
-    };
+    }
 
     int pop(T &popped)
     {
-        mutex.lock();
+        QMutexLocker locker(&mutex);
         if (prvNrItems() == 0)
-        {
-            mutex.unlock();
             return 0;
-        }
 
         popped = data[pop_ptr++];
         if (pop_ptr >= size)
             pop_ptr = 0;
 
-        mutex.unlock();
         return 1;
-    };
+    }
 
     T pop()
     {
-        mutex.lock();
-        T popped;
-        if (prvNrItems() >0)
+        QMutexLocker locker(&mutex);
+        T popped{};
+        if (prvNrItems() > 0)
         {
             popped = data[pop_ptr++];
             if (pop_ptr >= size)
                 pop_ptr = 0;
         }
-        mutex.unlock();
         return popped;
-    };
+    }
 
-        //just look at the next element to be popped
+    // Look at the next element to be popped without removing it
     int look(T &looked)
     {
-        mutex.lock();
+        QMutexLocker locker(&mutex);
         if (prvNrItems() == 0)
-        {
-            mutex.unlock();
             return 0;
-        }
 
         looked = data[pop_ptr];
-
-        mutex.unlock();
         return 1;
-    };
+    }
 
     T look()
     {
-        mutex.lock();
-        T looked;
-        if (prvNrItems() >0)
+        QMutexLocker locker(&mutex);
+        T looked{};
+        if (prvNrItems() > 0)
             looked = data[pop_ptr];
-        mutex.unlock();
         return looked;
-    };
+    }
 
-        //just remove what would be popped
+    // Remove what would be popped
     void dump()
     {
-        mutex.lock();
-        if (prvNrItems() >0)
-        {
-            if (++pop_ptr >= size)
-                pop_ptr = 0;
-        }
-        mutex.unlock();
+        QMutexLocker locker(&mutex);
+        if (prvNrItems() > 0 && ++pop_ptr >= size)
+            pop_ptr = 0;
     }
 
     void clear()
     {
-        mutex.lock();
+        QMutexLocker locker(&mutex);
         push_ptr = 0;
         pop_ptr = 0;
-        mutex.unlock();
-    };
+    }
 
 protected:
-
     T* data;
     int push_ptr;
     int pop_ptr;
@@ -137,7 +119,7 @@ protected:
         if (result < 0)
             result += size;
         return result;
-    };
+    }
 };
 
 #endif // CBUFFER_H

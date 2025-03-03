@@ -34,7 +34,7 @@ public:
     QWidget *verticalLayoutWidget;
     QVBoxLayout *verticalLayout;
     QLineEdit *lineTitle;
-    QCustomPlot *plot;
+    QCustomPlot *plotWidget;
     QHBoxLayout *horizontalLayout;
     QRadioButton *radioButtonAutoscale;
     QFrame *line;
@@ -85,20 +85,20 @@ public:
         lineTitle = new QLineEdit(verticalLayoutWidget);
         lineTitle->setObjectName("lineTitle");
         lineTitle->setFrame(false);
-        lineTitle->setAlignment(Qt::AlignCenter);
+        lineTitle->setAlignment(Qt::AlignmentFlag::AlignCenter);
         lineTitle->setReadOnly(true);
 
         verticalLayout->addWidget(lineTitle);
 
-        plot = new QCustomPlot(verticalLayoutWidget);
-        plot->setObjectName("plot");
+        plotWidget = new QCustomPlot(verticalLayoutWidget);
+        plotWidget->setObjectName("plotWidget");
         QSizePolicy sizePolicy1(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Expanding);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(plot->sizePolicy().hasHeightForWidth());
-        plot->setSizePolicy(sizePolicy1);
+        sizePolicy1.setHeightForWidth(plotWidget->sizePolicy().hasHeightForWidth());
+        plotWidget->setSizePolicy(sizePolicy1);
 
-        verticalLayout->addWidget(plot);
+        verticalLayout->addWidget(plotWidget);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName("horizontalLayout");
@@ -203,13 +203,13 @@ public:
         horizontalLayout_5->setContentsMargins(0, 0, 0, 0);
         frame = new QFrame(horizontalLayoutWidget_2);
         frame->setObjectName("frame");
-        frame->setFrameShape(QFrame::WinPanel);
-        frame->setFrameShadow(QFrame::Sunken);
+        frame->setFrameShape(QFrame::Shape::WinPanel);
+        frame->setFrameShadow(QFrame::Shadow::Sunken);
         lcdNumber_mean = new QLCDNumber(frame);
         lcdNumber_mean->setObjectName("lcdNumber_mean");
         lcdNumber_mean->setGeometry(QRect(50, 0, 91, 41));
-        lcdNumber_mean->setFrameShape(QFrame::NoFrame);
-        lcdNumber_mean->setFrameShadow(QFrame::Plain);
+        lcdNumber_mean->setFrameShape(QFrame::Shape::NoFrame);
+        lcdNumber_mean->setFrameShadow(QFrame::Shadow::Plain);
         lcdNumber_mean->setSmallDecimalPoint(true);
         lcdNumber_mean->setProperty("value", QVariant(0.000000000000000));
         lcdNumber_mean->setProperty("intValue", QVariant(0));
@@ -219,26 +219,26 @@ public:
         QFont font;
         font.setPointSize(12);
         label->setFont(font);
-        label->setTextFormat(Qt::RichText);
+        label->setTextFormat(Qt::TextFormat::RichText);
         label->setScaledContents(true);
 
         horizontalLayout_5->addWidget(frame);
 
         frame_4 = new QFrame(horizontalLayoutWidget_2);
         frame_4->setObjectName("frame_4");
-        frame_4->setFrameShape(QFrame::StyledPanel);
-        frame_4->setFrameShadow(QFrame::Raised);
+        frame_4->setFrameShape(QFrame::Shape::StyledPanel);
+        frame_4->setFrameShadow(QFrame::Shadow::Raised);
         label_4 = new QLabel(frame_4);
         label_4->setObjectName("label_4");
         label_4->setGeometry(QRect(0, 10, 61, 21));
         label_4->setFont(font);
-        label_4->setTextFormat(Qt::RichText);
+        label_4->setTextFormat(Qt::TextFormat::RichText);
         label_4->setScaledContents(true);
         lcdNumber_status = new QLCDNumber(frame_4);
         lcdNumber_status->setObjectName("lcdNumber_status");
         lcdNumber_status->setGeometry(QRect(50, 0, 91, 41));
-        lcdNumber_status->setFrameShape(QFrame::NoFrame);
-        lcdNumber_status->setFrameShadow(QFrame::Plain);
+        lcdNumber_status->setFrameShape(QFrame::Shape::NoFrame);
+        lcdNumber_status->setFrameShadow(QFrame::Shadow::Plain);
         lcdNumber_status->setSmallDecimalPoint(true);
         lcdNumber_status->setProperty("value", QVariant(0.000000000000000));
         lcdNumber_status->setProperty("intValue", QVariant(0));
@@ -247,13 +247,13 @@ public:
 
         frame_3 = new QFrame(horizontalLayoutWidget_2);
         frame_3->setObjectName("frame_3");
-        frame_3->setFrameShape(QFrame::WinPanel);
-        frame_3->setFrameShadow(QFrame::Sunken);
+        frame_3->setFrameShape(QFrame::Shape::WinPanel);
+        frame_3->setFrameShadow(QFrame::Shadow::Sunken);
         lcdNumber_focus = new QLCDNumber(frame_3);
         lcdNumber_focus->setObjectName("lcdNumber_focus");
         lcdNumber_focus->setGeometry(QRect(60, 0, 71, 41));
-        lcdNumber_focus->setFrameShape(QFrame::NoFrame);
-        lcdNumber_focus->setFrameShadow(QFrame::Plain);
+        lcdNumber_focus->setFrameShape(QFrame::Shape::NoFrame);
+        lcdNumber_focus->setFrameShadow(QFrame::Shadow::Plain);
         label_2 = new QLabel(frame_3);
         label_2->setObjectName("label_2");
         label_2->setGeometry(QRect(8, 10, 61, 21));
@@ -263,8 +263,8 @@ public:
 
         frame_2 = new QFrame(horizontalLayoutWidget_2);
         frame_2->setObjectName("frame_2");
-        frame_2->setFrameShape(QFrame::WinPanel);
-        frame_2->setFrameShadow(QFrame::Sunken);
+        frame_2->setFrameShape(QFrame::Shape::WinPanel);
+        frame_2->setFrameShadow(QFrame::Shadow::Sunken);
         lcdNumber_max = new QLCDNumber(frame_2);
         lcdNumber_max->setObjectName("lcdNumber_max");
         lcdNumber_max->setGeometry(QRect(50, 0, 71, 41));
@@ -272,7 +272,7 @@ public:
         font1.setFamilies({QString::fromUtf8("Arial")});
         font1.setPointSize(8);
         lcdNumber_max->setFont(font1);
-        lcdNumber_max->setFrameShape(QFrame::NoFrame);
+        lcdNumber_max->setFrameShape(QFrame::Shape::NoFrame);
         label_3 = new QLabel(frame_2);
         label_3->setObjectName("label_3");
         label_3->setGeometry(QRect(8, 10, 61, 21));

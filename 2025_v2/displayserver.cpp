@@ -96,8 +96,8 @@ void DisplayServer::plot()
     for (int plane = 0; plane < planeConfig.length(); plane++)
     {
         // Initialize display buffers
-        displays[plane]->buffer.resize(planeConfig[plane]->nr_sensors * 64);
-        displays[plane]->rmsbuffer.resize(4);
+        displays[plane]->rawBuffer.resize(planeConfig[plane]->nr_sensors * 64);
+        displays[plane]->calBuffer.resize(planeConfig[plane]->nr_sensors * 64);
 
         // Fill with data from each device in the current plane
         int current_base = 0;
@@ -107,18 +107,15 @@ void DisplayServer::plot()
             int nr_channels = planeConfig[plane]->devices[dev_nr]->deviceConfig.nr_channels();
             if (nr_channels > lastFrame[dev_id].buffer_size)
                 nr_channels = lastFrame[dev_id].buffer_size;    // Check if there's actually data in the buffer
-            // Note: device order mapping is not yet implemented!
-            for (int i = 0; i < nr_channels; i++)
-                // Replace sensor_data with raw_data
-                displays[plane]->buffer[current_base + i] = lastFrame[dev_id].raw_data[i];
-            current_base += nr_channels;
-            displays[plane]->rmsbuffer[0] = lastFrame[dev_id].rms_frame.mean;
-            displays[plane]->rmsbuffer[1] = lastFrame[dev_id].rms_frame.sigma;
-            displays[plane]->rmsbuffer[2] = lastFrame[dev_id].rms_frame.max;
-            displays[plane]->rmsbuffer[3] = lastFrame[dev_id].rms_frame.status;
+            // Note: device order mapping is not yet implemented!        
+
+            for (int i = 0; i < planeConfig[plane]->nr_sensors * 64; ++i) {
+                displays[plane]->rawBuffer[current_base + i] = lastFrame[dev_id].raw_data[i];
+                displays[plane]->calBuffer[current_base + i] = lastFrame[dev_id].cal_data[i];
+            }
         }
         // Plot the data on the display
-        displays[plane]->plot();
+      displays[plane]->plot(displays[plane]->rawBuffer, displays[plane]->calBuffer);
     }
 }
 

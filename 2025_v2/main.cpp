@@ -14,10 +14,10 @@ int main(int argc, char *argv[])
     qDebug() << "App path:" << qApp->applicationDirPath();
 
     // Path to the default stylesheet
-    QString stylesheetPath = qApp->applicationDirPath() + "/styles/theDark.qss";
+    //QString stylesheetPath = qApp->applicationDirPath() + "/styles/theDark.qss";
 
     // Apply the default stylesheet
-    applyStyle(stylesheetPath);
+    //applyStyle(stylesheetPath);
 
     MainWindow w;
     w.show();

@@ -4119,28 +4119,6 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QLCDNumber \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlcdnumber.h \
 		ui_mainwindow.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QVariant \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/QAction \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QApplication \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qapplication.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QHBoxLayout \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlayout.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QMenu \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qmenu.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QMenuBar \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qmenubar.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QPushButton \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qpushbutton.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QSpacerItem \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QStatusBar \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qstatusbar.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QToolBar \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qtoolbar.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QVBoxLayout \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QWidget \
 		dialoglogsettings.h \
 		dialoghostip.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/QShowEvent \
@@ -4558,33 +4536,13 @@ debug/dialoglogsettings.o: dialoglogsettings.cpp dialoglogsettings.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qlocale.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qguiapplication_platform.h \
 		ui_dialoglogsettings.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QVariant \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QAbstractButton \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qabstractbutton.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QApplication \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qapplication.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QButtonGroup \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qbuttongroup.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QCheckBox \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qcheckbox.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QDialogButtonBox \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QGridLayout \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlayout.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QLabel \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlabel.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qframe.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qpicture.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextdocument.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QWidget \
 		Q_DebugStream.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QTextBrowser \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qtextbrowser.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qtextedit.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qframe.h \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextdocument.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextoption.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextcursor.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextformat.h \
@@ -5273,30 +5231,6 @@ debug/dialoghostip.o: dialoghostip.cpp dialoghostip.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qsettings.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/QShowEvent \
 		ui_dialoghostip.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QVariant \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QAbstractButton \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qabstractbutton.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QApplication \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qapplication.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QDialogButtonBox \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QHBoxLayout \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlayout.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QLabel \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlabel.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qframe.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qpicture.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextdocument.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QLineEdit \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlineedit.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextcursor.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextformat.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qpen.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextoption.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QWidget \
 		helpers.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QString \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QStringList \
@@ -5508,41 +5442,6 @@ debug/dialogtriggersettings.o: dialogtriggersettings.cpp dialogtriggersettings.h
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qsettings.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/QShowEvent \
 		ui_dialogtriggersettings.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QVariant \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QAbstractButton \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qabstractbutton.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QApplication \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qapplication.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QButtonGroup \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qbuttongroup.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QDialogButtonBox \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QGridLayout \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlayout.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QHBoxLayout \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QLabel \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlabel.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qframe.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qpicture.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextdocument.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QLineEdit \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlineedit.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextcursor.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextformat.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qpen.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextoption.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QRadioButton \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qradiobutton.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QSpinBox \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qspinbox.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qabstractspinbox.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qvalidator.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qregularexpression.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QVBoxLayout \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QWidget \
 		helpers.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QString \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QStringList \
@@ -5754,47 +5653,6 @@ debug/dialogdevices.o: dialogdevices.cpp dialogdevices.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qsettings.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/QShowEvent \
 		ui_dialogdevices.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QVariant \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QAbstractButton \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qabstractbutton.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QApplication \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qapplication.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QDialogButtonBox \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QHBoxLayout \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlayout.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QHeaderView \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qheaderview.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qabstractitemview.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qframe.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qabstractitemmodel.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qitemselectionmodel.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qstyleoption.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qabstractspinbox.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qvalidator.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qregularexpression.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qslider.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qabstractslider.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qstyle.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qtabbar.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qtabwidget.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qrubberband.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QLabel \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlabel.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qpicture.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextdocument.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QSpinBox \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qspinbox.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QTableWidget \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qtablewidget.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qtableview.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QVBoxLayout \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QWidget \
 		helpers.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QString \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QStringList \
@@ -6316,34 +6174,11 @@ debug/display.o: display.cpp display.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlcdnumber.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qframe.h \
 		ui_display.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QVariant \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QApplication \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qapplication.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QFrame \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QHBoxLayout \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QVBoxLayout \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qboxlayout.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlayout.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlayoutitem.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qgridlayout.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QLabel \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlabel.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qpicture.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextdocument.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QLineEdit \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlineedit.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextcursor.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextformat.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qpen.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextoption.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QPushButton \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qpushbutton.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QSpinBox \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qspinbox.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qabstractspinbox.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qvalidator.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qregularexpression.h \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QVBoxLayout \
-		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QWidget \
 		qcustomplot.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QPointer \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qpointer.h \
@@ -6353,6 +6188,8 @@ debug/display.o: display.cpp display.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qbasictimer.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/QPainter \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qpainter.h \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextoption.h \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qpen.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/QPainterPath \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qpainterpath.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/QPaintEvent \
@@ -6387,6 +6224,7 @@ debug/display.o: display.cpp display.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qwindow.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QEvent \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QtNumeric \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QWidget \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtPrintSupport/QtPrintSupport \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtPrintSupport/QtPrintSupportDepends \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QtCore \
@@ -6413,6 +6251,7 @@ debug/display.o: display.cpp display.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qcborarray.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qcborvalue.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qcborcommon.h \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qregularexpression.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/quuid.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qcbormap.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qcborstream.h \
@@ -6501,6 +6340,7 @@ debug/display.o: display.cpp display.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qurlquery.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qvarianthash.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QHash \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QVariant \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qvariantlist.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/qvariantmap.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtCore/QMap \
@@ -6517,6 +6357,9 @@ debug/display.o: display.cpp display.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qglyphrun.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qrawfont.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qfontdatabase.h \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextcursor.h \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextdocument.h \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtextformat.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qaccessible.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qaccessible_base.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qaccessiblebridge.h \
@@ -6554,6 +6397,7 @@ debug/display.o: display.cpp display.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qpaintengine.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qpdfoutputintent.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qpdfwriter.h \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qpicture.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qpixmapcache.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qrasterwindow.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/QPaintDeviceWindow \
@@ -6572,11 +6416,13 @@ debug/display.o: display.cpp display.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qtguiversion.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qundogroup.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qundostack.h \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qvalidator.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/qwindowsmimeconverter.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QtWidgets \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/QtWidgetsDepends \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qstyleoption.h \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qabstractspinbox.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qslider.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qabstractslider.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qstyle.h \
@@ -6590,12 +6436,14 @@ debug/display.o: display.cpp display.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/QAction \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qactiongroup.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/QActionGroup \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qapplication.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qcalendarwidget.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qcolordialog.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qcolormap.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qcolumnview.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qcombobox.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qcommandlinkbutton.h \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qpushbutton.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qcommonstyle.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qcompleter.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qdatawidgetmapper.h \
@@ -6636,9 +6484,11 @@ debug/display.o: display.cpp display.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qgroupbox.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qheaderview.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qinputdialog.h \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlineedit.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qitemdelegate.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qitemeditorfactory.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qkeysequenceedit.h \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlabel.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlistview.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qlistwidget.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qmainwindow.h \
@@ -6664,6 +6514,7 @@ debug/display.o: display.cpp display.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qshortcut.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtGui/QShortcut \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qsizegrip.h \
+		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qspinbox.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qsplashscreen.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qsplitter.h \
 		../../Qt/Qt6.8.0/6.8.0/mingw_64/include/QtWidgets/qstackedlayout.h \

@@ -15,7 +15,7 @@
 #define DATA_PACKET_HEADER_SIZE     6
 #define DATA_SYNC_HEADER_SIZE       6
 #define DATA_RMS_FRAME_SIZE         16
-#define DATA_BYTES_PER_SAMPLE       2
+#define DATA_BYTES_PER_SAMPLE       4 // 2 bytes RAW + 2 bytes CAL interleaved
 #define DATA_SAMPLES_PER_SENSOR     64
 #define DATA_MAX_SENSORS_PER_BOARD  5
 #define DATA_MAX_BUNCH              16
@@ -28,14 +28,14 @@ inline int getExpectedPacketSize(int sensorsPerBoard, int dmaBunch, int ethBunch
     return ethBunch * (
                DATA_PACKET_HEADER_SIZE +
                DATA_SYNC_HEADER_SIZE +
-               dmaBunch * (2 * getDataRawBlockSize(sensorsPerBoard)) +
+               dmaBunch * (getDataRawBlockSize(sensorsPerBoard)) +
                DATA_RMS_FRAME_SIZE
                );
 }
 
 #define DATA_MAX_PACKET_SIZE  \
 ( DATA_MAX_BUNCH * ( DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE + \
-                  (2 * DATA_MAX_SENSORS_PER_BOARD * DATA_SAMPLES_PER_SENSOR * DATA_BYTES_PER_SAMPLE) + \
+                  (DATA_MAX_SENSORS_PER_BOARD * DATA_SAMPLES_PER_SENSOR * DATA_BYTES_PER_SAMPLE) + \
                   DATA_RMS_FRAME_SIZE ) )
 
     typedef struct {
@@ -60,8 +60,8 @@ public:
     SyncFrame sync_frame;
     RMSFrame rms_frame;
     int buffer_size;
-    unsigned short* raw_data;
-    signed short* cal_data;
+    unsigned short* raw_data;   // Unsigned raw data
+    signed short* cal_data;     // Signed cal data
 
     BufferData();
     explicit BufferData(int size);

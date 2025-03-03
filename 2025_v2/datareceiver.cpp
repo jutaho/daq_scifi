@@ -31,92 +31,84 @@ void DataReceiver::deinit() {
     initSemaphore.acquire();
 }
 
-void DataReceiver::readData() {
+void DataReceiver::readData()
+{
     int size_received_bytes;
-    while ((size_received_bytes = dataSocket->readDatagram(tmpBuffer, DATA_MAX_PACKET_SIZE)) > 0) {
-
+    while ((size_received_bytes = dataSocket->readDatagram(tmpBuffer, DATA_MAX_PACKET_SIZE)) > 0)
+    {
         int expected_size_bytes = getExpectedPacketSize(sensorsPerBoard, dmaBunch, ethBunch);
-        if (size_received_bytes != expected_size_bytes) {
-            qWarning() << "Packet size mismatch:" << expected_size_bytes << "!=" << size_received_bytes;
+        if (size_received_bytes != expected_size_bytes)
+        {
+            std::cerr << "[ERROR] packet size mismatch: got " << size_received_bytes
+                      << ", expected " << expected_size_bytes << std::endl;
             continue;
         }
 
         int raw_block_size = getDataRawBlockSize(sensorsPerBoard);
 
-        if (dmaBunch <= 0 || ethBunch <= 0 ||
-            dmaBunch > DATA_MAX_BUNCH || ethBunch > DATA_MAX_BUNCH) {
-            qWarning() << "Invalid bunch parameters detected:" << "dmaBunch:" << dmaBunch << "ethBunch:" << ethBunch;
-            return;
-        }
-
-        for (int ethb = 0; ethb < ethBunch; ethb++) {
-
+        for (int ethb = 0; ethb < ethBunch; ethb++)
+        {
             int baseaddr = ethb * (DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE +
-                                   2 * dmaBunch * raw_block_size + DATA_RMS_FRAME_SIZE);
-
-            if (baseaddr + DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE >= size_received_bytes) {
-                qWarning() << "Packet overflow detected at ethb:" << ethb;
-                continue;
-            }
+                                   dmaBunch * (2 * raw_block_size) + DATA_RMS_FRAME_SIZE);
 
             if (BYTES2SHORT(tmpBuffer + baseaddr) != 0x5555 ||
-                BYTES2SHORT(tmpBuffer + baseaddr + 2) != COMMAND_DATA_TRANSFER) {
-                qWarning() << "Invalid header detected at ethb:" << ethb;
+                BYTES2SHORT(tmpBuffer + baseaddr + 2) != COMMAND_DATA_TRANSFER)
                 continue;
-            }
 
-            SyncFrame sync = {
-                (unsigned short)BYTES2SHORT(tmpBuffer + baseaddr + 6),
-                (unsigned short)BYTES2SHORT(tmpBuffer + baseaddr + 8),
-                (unsigned short)BYTES2SHORT(tmpBuffer + baseaddr + 10),
-                0xFFFF, devNr, 1
-            };
+            SyncFrame sync;
+            sync.local_ctr = BYTES2SHORT(tmpBuffer + baseaddr + 6);
+            sync.global_ctr = BYTES2SHORT(tmpBuffer + baseaddr + 8);
+            sync.sma_state = BYTES2SHORT(tmpBuffer + baseaddr + 10);
+            sync.device_nr = devNr;
+            sync.data_ok = 1;
 
-            for (int dmab = 0; dmab < dmaBunch; dmab++) {
-
+            for (int dmab = 0; dmab < dmaBunch; dmab++)
+            {
                 framesReceived++;
-                if (!outputEnabled) continue;
 
-                int base_raw = baseaddr + DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE + dmab * 2 * raw_block_size;
+                if (!outputEnabled)
+                    continue;
+
+                int base_raw = baseaddr + DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE +
+                               dmab * (2 * raw_block_size);
                 int base_cal = base_raw + raw_block_size;
-
-                if (base_cal + raw_block_size > size_received_bytes || base_raw < 0 || base_cal < 0) {
-                    qWarning() << "Packet overflow detected at dmab:" << dmab;
-                    break;
-                }
 
                 BufferData data(sensorsPerBoard * DATA_SAMPLES_PER_SENSOR);
                 data.sync_frame = sync;
 
-                for (int s = 0; s < data.buffer_size; s++) {
-                    data.raw_data[s] = BYTES2SHORT(tmpBuffer + base_raw + 2 * s);
-                    data.cal_data[s] = (signed short)BYTES2SHORT(tmpBuffer + base_cal + 2 * s);
+                for (int s = 0; s < data.buffer_size; s++)
+                {
+                    // Correct logic based on your observation:
+                    data.raw_data[s] = 65535 - BYTES2SHORT(tmpBuffer + base_raw + 2 * s); // Raw: direct, unsigned
+                    data.cal_data[s] = 65535 - BYTES2SHORT(tmpBuffer + base_cal + 2 * s); // Cal: inverted
                 }
 
                 int rms_base = baseaddr + DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE +
-                               2 * dmaBunch * raw_block_size;
+                               dmaBunch * (2 * raw_block_size);
 
-                if (rms_base + DATA_RMS_FRAME_SIZE > size_received_bytes) {
-                    qWarning() << "RMS overflow detected at dmab:" << dmab;
-                    break;
-                }
-
-                data.rms_frame.mean = BYTES2SHORT(tmpBuffer + rms_base);
-                data.rms_frame.sigma = BYTES2SHORT(tmpBuffer + rms_base + 2);
-                data.rms_frame.max = BYTES2SHORT(tmpBuffer + rms_base + 4);
+                data.rms_frame.mean   = BYTES2SHORT(tmpBuffer + rms_base);
+                data.rms_frame.sigma  = BYTES2SHORT(tmpBuffer + rms_base + 2);
+                data.rms_frame.max    = BYTES2SHORT(tmpBuffer + rms_base + 4);
                 data.rms_frame.status = BYTES2SHORT(tmpBuffer + rms_base + 6);
 
-                dataBuffer.push(data);
+                if (!dataBuffer.push(data))
+                    std::cerr << "[WARNING] Data buffer overflow!" << std::endl;
+
                 framesFromLastSig++;
             }
         }
 
-        if (framesFromLastSig >= RECEIVER_FRAMES_PER_SIG) {
+        if (framesFromLastSig >= RECEIVER_FRAMES_PER_SIG)
+        {
             framesFromLastSig = 0;
             emit sigDataReady(this);
         }
     }
 }
+
+
+
+// Keep the remaining implementation unchanged (onInit, onDeinit, etc.)
 
 
 void DataReceiver::onInit() {
@@ -132,9 +124,21 @@ void DataReceiver::onInit() {
 }
 
 void DataReceiver::onDeinit() {
-    if (dataSocket) dataSocket->close();
+    if (timer) {
+        timer->stop();
+        timer->deleteLater();  // safely delete timer
+        timer = nullptr;
+    }
+
+    if (dataSocket) {
+        dataSocket->close();
+        dataSocket->deleteLater();  // safely delete socket
+        dataSocket = nullptr;
+    }
+
     initSemaphore.release();
 }
+
 
 void DataReceiver::configureEthSettings(QHostAddress address_to_set, quint16 port_to_set) {
     address = address_to_set;

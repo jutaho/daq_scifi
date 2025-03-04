@@ -53,8 +53,8 @@ void EventBuilder::onNewData(DataReceiver* receiver) {
 
 void EventBuilder::processFrameData(BufferData &data) {
     if (data.buffer_size > 0) {
-        std::cout << "Raw data[0]: " << data.raw_data[0]
-                  << ", Cal data[0]: " << data.cal_data[0] << std::endl;
+        //std::cout << "Raw data[0]: " << data.raw_data[0]
+        //          << ", Cal data[0]: " << data.cal_data[0] << std::endl;
     }
 }
 

@@ -3,10 +3,7 @@
 
 #include <QDialog>
 #include <QVector>
-#include <QRadioButton>
-#include <QButtonGroup>
 #include <QCheckBox>
-#include <QLCDNumber>
 
 namespace Ui {
 class display;
@@ -19,11 +16,15 @@ public:
     explicit BPMDisplay(QWidget *parent = nullptr);
     ~BPMDisplay();
 
-    void plot(const QVector<signed short> &raw_data, const QVector<unsigned short> &cal_data);
+    // Raw data is unsigned short; Cal data is signed short
+    void plot(const QVector<unsigned short> &raw_data,
+              const QVector<signed short>   &cal_data);
+
     void setTitle(QString title);
 
-    QVector<signed short> rawBuffer;
-    QVector<unsigned short> calBuffer;
+    // Buffers also reflect raw = unsigned, cal = signed
+    QVector<unsigned short> rawBuffer;
+    QVector<signed short>   calBuffer;
 
 public slots:
     void showEvent(QShowEvent *event);
@@ -38,7 +39,7 @@ private:
     Ui::display *ui;
 
     QCheckBox *checkBoxShowCalibrated;
-    bool showCalibrated = true;
+    bool showCalibrated;
 
     void setupUI();
 };

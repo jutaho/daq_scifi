@@ -15,7 +15,7 @@
 #define DATA_PACKET_HEADER_SIZE     6
 #define DATA_SYNC_HEADER_SIZE       6
 #define DATA_RMS_FRAME_SIZE         16
-#define DATA_BYTES_PER_SAMPLE       4 // 2 bytes RAW + 2 bytes CAL interleaved
+#define DATA_BYTES_PER_SAMPLE       4 // 2 bytes RAW + 2 bytes CAL
 #define DATA_SAMPLES_PER_SENSOR     64
 #define DATA_MAX_SENSORS_PER_BOARD  5
 #define DATA_MAX_BUNCH              16
@@ -35,7 +35,7 @@ inline int getExpectedPacketSize(int sensorsPerBoard, int dmaBunch, int ethBunch
 
 #define DATA_MAX_PACKET_SIZE  \
 ( DATA_MAX_BUNCH * ( DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE + \
-                  (DATA_MAX_SENSORS_PER_BOARD * DATA_SAMPLES_PER_SENSOR * DATA_BYTES_PER_SAMPLE) + \
+                  (DATA_MAX_SENSORS_PER_BOARD * DATA_SAMPLES_PER_SENSOR * DATA_BYTES_PER_SAMPLE ) + \
                   DATA_RMS_FRAME_SIZE ) )
 
     typedef struct {

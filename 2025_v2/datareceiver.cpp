@@ -76,12 +76,21 @@ void DataReceiver::readData()
                 BufferData data(sensorsPerBoard * DATA_SAMPLES_PER_SENSOR);
                 data.sync_frame = sync;
 
+
+
                 for (int s = 0; s < data.buffer_size; s++)
                 {
-                    // Correct logic based on your observation:
+
                     data.raw_data[s] = 65535 - BYTES2SHORT(tmpBuffer + base_raw + 2 * s); // Raw: direct, unsigned
-                    data.cal_data[s] = 65535 - BYTES2SHORT(tmpBuffer + base_cal + 2 * s); // Cal: inverted
+                    data.cal_data[s] = BYTES2SHORT(tmpBuffer + base_cal + 2 * s); // Cal: inverted
+
+                    std::cerr << " ---> raw data   " << data.raw_data[s] << std::endl;
+
+                    std::cerr << " ---> cal data   " << data.cal_data[s] << std::endl;
+
+
                 }
+
 
                 int rms_base = baseaddr + DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE +
                                dmaBunch * (2 * raw_block_size);
@@ -105,7 +114,6 @@ void DataReceiver::readData()
         }
     }
 }
-
 
 
 // Keep the remaining implementation unchanged (onInit, onDeinit, etc.)

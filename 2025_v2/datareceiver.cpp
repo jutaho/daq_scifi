@@ -1,12 +1,12 @@
 #include "datareceiver.h"
 #include "dev_commands.h"
-#include "helpers.h"   // uses the BYTES2SHORT(...) macro
-#include <iostream>    // for std::cerr, etc.
-#include <cstring>     // for memset, memcpy
+#include "helpers.h"
+#include <iostream>
+#include <fstream>
 
+// Constructor
 DataReceiver::DataReceiver(QObject *parent)
-    : QObject(parent)
-    , dataBuffer(RECEIVER_BUFFER_SIZE)
+    : QObject(parent), dataBuffer(RECEIVER_BUFFER_SIZE)
 {
     connect(this, &DataReceiver::sigInit, this, &DataReceiver::onInit);
     connect(this, &DataReceiver::sigDeinit, this, &DataReceiver::onDeinit);
@@ -17,153 +17,180 @@ DataReceiver::DataReceiver(QObject *parent)
     init();
 }
 
+
+std::ofstream rawDataFile("raw_values_first_frame.txt", std::ios::out);
+
+// Receiving Data
+void DataReceiver::readData()
+{
+
+    int size_received_bytes;
+
+
+    while ((size_received_bytes = dataSocket->readDatagram(tmpBuffer, DATA_PACKET_SIZE)) > 0)
+
+    {
+
+        int expected_size_bytes = ethBunch * (DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE + dmaBunch * DATA_BLOCK_SIZE + DATA_RMS_FRAME_SIZE);
+
+        if (size_received_bytes != expected_size_bytes)
+        {
+            std::cout << "Packet error. Got " << size_received_bytes << " bytes, expected " << expected_size_bytes << std::endl;
+            continue;
+        }
+
+
+        for (int ethb = 0; ethb < ethBunch; ethb++)
+        {
+
+            // Check data size per frame
+            int baseaddr = ethb * (DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE + dmaBunch * DATA_BLOCK_SIZE + DATA_RMS_FRAME_SIZE);
+
+            // Check reference byte = 0x5555
+            if (BYTES2SHORT(tmpBuffer + baseaddr + 0) != 0x5555)
+                continue;
+
+            // Check data command transfer byte
+            if (BYTES2SHORT(tmpBuffer + baseaddr + 2) != COMMAND_DATA_TRANSFER)
+                continue;
+
+            // Check Header + Data
+            if ((BYTES2SHORT(tmpBuffer + baseaddr + 4) * 4) != (DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE + dmaBunch * DATA_BLOCK_SIZE))
+               continue;
+
+            // Read sync data
+            SyncFrame sync;
+            sync.local_ctr = BYTES2SHORT(tmpBuffer + baseaddr + DATA_PACKET_HEADER_SIZE);
+            sync.global_ctr = BYTES2SHORT(tmpBuffer + baseaddr + DATA_PACKET_HEADER_SIZE + 2);
+            sync.sma_state = BYTES2SHORT(tmpBuffer + baseaddr + DATA_PACKET_HEADER_SIZE + 4);
+            sync.device_nr = devNr;
+
+
+            sync.data_ok = 1;
+
+            RMSFrame rms;
+
+            for (int dmab = 0; dmab < dmaBunch; dmab++)
+            {
+
+                framesReceived++;
+
+                int baseaddr2 = baseaddr + dmab * DATA_BLOCK_SIZE;
+
+                if (outputEnabled)
+
+                {
+                    BufferData data_to_push(sensorsPerBoard * DATA_SAMPLES_PER_SENSOR);
+                    data_to_push.sync_frame = sync;
+                    int baseaddr3 = baseaddr2 + DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE;
+
+
+                    // Iterating over the number of "words"
+                    static int counter = 0;
+
+                    for (int wordIndex = 0; wordIndex < sensorsPerBoard * DATA_SAMPLES_PER_SENSOR; wordIndex++)
+                    {
+                        int channelIndex = (wordIndex / 2) * 2;
+
+
+                        if (wordIndex % 2 == 0)
+                        {
+                            data_to_push.raw_data[channelIndex] = 65535 - BYTES2SHORT(tmpBuffer + baseaddr3 + wordIndex * 4);
+                            data_to_push.raw_data[channelIndex + 1] = 65535 - BYTES2SHORT(tmpBuffer + baseaddr3 + wordIndex * 4 + 2);
+
+
+                        }
+
+                        else
+
+                        {
+                        // Read calibrated values (from even words)
+                            data_to_push.cal_data[channelIndex]     = 65535- BYTES2SHORT(tmpBuffer + baseaddr3 + wordIndex * 4);
+                            data_to_push.cal_data[channelIndex + 1] = 65535- BYTES2SHORT(tmpBuffer + baseaddr3 + wordIndex * 4 + 2);
+                        }
+                    }
+
+                    // Read RMS frame
+                    rms.mean = BYTES2SHORT(tmpBuffer + baseaddr + DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE + DATA_BLOCK_SIZE);
+                    rms.sigma = BYTES2SHORT(tmpBuffer + baseaddr + DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE + DATA_BLOCK_SIZE + 2);
+                    rms.max = BYTES2SHORT(tmpBuffer + baseaddr + DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE + DATA_BLOCK_SIZE + 4);
+                    rms.status = BYTES2SHORT(tmpBuffer + baseaddr + DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE + DATA_BLOCK_SIZE + 6);
+                    data_to_push.rms_frame = rms;
+
+                    // Push data to buffer
+                    dataBuffer.push(data_to_push);
+                    framesFromLastSig++;
+                }
+            }
+        }
+    }
+
+
+    if (framesFromLastSig >= RECEIVER_FRAMES_PER_SIG)
+    {
+        framesFromLastSig = 0;
+        emit sigDataReady(this);
+    }
+}
+
+// Destructor
 DataReceiver::~DataReceiver()
 {
     deinit();
     thread.quit();
     thread.wait();
+    rawDataFile.close();
 }
 
-void DataReceiver::init()
+// Timer function for frame rate calculation
+void DataReceiver::onTimer()
 {
-    emit sigInit();
-    initSemaphore.acquire();
+    frameRate = framesReceived * 1000 / RECEIVER_TIMER_PERIOD_MS;
+    framesReceived = 0;
 }
 
-void DataReceiver::deinit()
-{
-    emit sigDeinit();
-    initSemaphore.acquire();
-}
-
-void DataReceiver::readData()
-{
-    int size_received_bytes;
-    while ((size_received_bytes = dataSocket->readDatagram(tmpBuffer, DATA_MAX_PACKET_SIZE)) > 0)
-    {
-        int expected_size_bytes = getExpectedPacketSize(sensorsPerBoard, dmaBunch, ethBunch);
-        if (size_received_bytes != expected_size_bytes)
-        {
-            std::cerr << "[ERROR] packet size mismatch: got "
-                      << size_received_bytes
-                      << ", expected " << expected_size_bytes << std::endl;
-            continue;
-        }
-
-        int raw_block_size = getDataRawBlockSize(sensorsPerBoard);
-
-        for (int ethb = 0; ethb < ethBunch; ethb++)
-        {
-            int baseaddr = ethb * (DATA_PACKET_HEADER_SIZE + DATA_SYNC_HEADER_SIZE +
-                                   dmaBunch * (2 * raw_block_size) +
-                                   DATA_RMS_FRAME_SIZE);
-
-            // Check packet header:
-            if (BYTES2SHORT(tmpBuffer + baseaddr) != 0x5555 ||
-                BYTES2SHORT(tmpBuffer + baseaddr + 2) != COMMAND_DATA_TRANSFER)
-            {
-                continue;
-            }
-
-            // Parse sync frame:
-            SyncFrame sync;
-            sync.local_ctr  = BYTES2SHORT(tmpBuffer + baseaddr + 6);
-            sync.global_ctr = BYTES2SHORT(tmpBuffer + baseaddr + 8);
-            sync.sma_state  = BYTES2SHORT(tmpBuffer + baseaddr + 10);
-            sync.device_nr  = devNr;
-            sync.data_ok    = 1;
-
-            // Process each DMA block:
-            for (int dmab = 0; dmab < dmaBunch; dmab++)
-            {
-                framesReceived++;
-
-                if (!outputEnabled)
-                    continue;
-
-                int base_raw = baseaddr
-                               + DATA_PACKET_HEADER_SIZE
-                               + DATA_SYNC_HEADER_SIZE
-                               + dmab * (2 * raw_block_size);
-
-                int base_cal = base_raw + raw_block_size;
-
-                // Create a BufferData for one "frame" of data:
-                BufferData data(sensorsPerBoard * DATA_SAMPLES_PER_SENSOR);
-                data.sync_frame = sync;
-
-                // Copy raw & cal data:
-                for (int s = 0; s < data.buffer_size; s++)
-                {
-                    // Raw is "65535 - value" (inverted?):
-                    data.raw_data[s] = 65535 - BYTES2SHORT(tmpBuffer + base_raw + 2*s);
-
-                    // Cal is direct read:
-                    data.cal_data[s] = BYTES2SHORT(tmpBuffer + base_cal + 2*s);
-                }
-
-                // Parse RMS info (just once per DMA block, after the raw+cal blocks):
-                int rms_base = baseaddr
-                               + DATA_PACKET_HEADER_SIZE
-                               + DATA_SYNC_HEADER_SIZE
-                               + dmaBunch * (2 * raw_block_size);
-
-                data.rms_frame.mean   = BYTES2SHORT(tmpBuffer + rms_base);
-                data.rms_frame.sigma  = BYTES2SHORT(tmpBuffer + rms_base + 2);
-                data.rms_frame.max    = BYTES2SHORT(tmpBuffer + rms_base + 4);
-                data.rms_frame.status = BYTES2SHORT(tmpBuffer + rms_base + 6);
-
-                // Push to ring buffer:
-                if (!dataBuffer.push(data))
-                {
-                    std::cerr << "[WARNING] Data buffer overflow!" << std::endl;
-                }
-
-                framesFromLastSig++;
-            }
-        }
-
-        // Emit signal periodically after N frames:
-        if (framesFromLastSig >= RECEIVER_FRAMES_PER_SIG)
-        {
-            framesFromLastSig = 0;
-            emit sigDataReady(this);
-        }
-    }
-}
-
-// -------------- The rest is unchanged (onInit, onDeinit, etc.) --------------
-
+// Initialization and Deinitialization
 void DataReceiver::onInit()
 {
-    dataSocket = new QUdpSocket(this);
-    dataSocket->bind(address, port);
-    connect(dataSocket, &QUdpSocket::readyRead, this, &DataReceiver::readData);
+    if (dataSocket == NULL)
+    {
+        dataSocket = new QUdpSocket(this);
+        connect(dataSocket, &QUdpSocket::readyRead, this, &DataReceiver::readData);
+    }
 
-    timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &DataReceiver::onTimer);
-    timer->start(RECEIVER_TIMER_PERIOD_MS);
+    if (timer == NULL)
+    {
+        timer = new QTimer(this);
+        connect(timer, &QTimer::timeout, this, &DataReceiver::onTimer);
+        timer->start(RECEIVER_TIMER_PERIOD_MS);
+    }
 
     initSemaphore.release();
 }
 
 void DataReceiver::onDeinit()
 {
-    if (timer) {
-        timer->stop();
-        timer->deleteLater();
-        timer = nullptr;
+    if (dataSocket != NULL)
+    {
+        delete dataSocket;
+        dataSocket = NULL;
     }
-
-    if (dataSocket) {
-        dataSocket->close();
-        dataSocket->deleteLater();
-        dataSocket = nullptr;
+    if (timer != NULL)
+    {
+        delete timer;
+        timer = NULL;
     }
 
     initSemaphore.release();
 }
 
+void DataReceiver::onConfigureEthSettings()
+{
+    dataSocket->close();
+    dataSocket->bind(address, port);
+}
+
+// Configuring Ethernet settings
 void DataReceiver::configureEthSettings(QHostAddress address_to_set, quint16 port_to_set)
 {
     address = address_to_set;
@@ -171,99 +198,31 @@ void DataReceiver::configureEthSettings(QHostAddress address_to_set, quint16 por
     emit sigConfigureEthSettings();
 }
 
+// Configuring Bunch Sizes
 void DataReceiver::configureBunchSize(int dma, int eth)
 {
     dmaBunch = dma;
     ethBunch = eth;
 }
 
+// Output enable/disable
 void DataReceiver::outputEnable(int en)
 {
+    //std::cout << "Output enabled with:  " << en << std::endl;
     outputEnabled = en;
+    if (!en)
+        dataBuffer.clear();
 }
 
-void DataReceiver::onConfigureEthSettings()
+// Initialization and Deinitialization logic
+void DataReceiver::init()
 {
-    if (dataSocket) {
-        dataSocket->close();
-        dataSocket->bind(address, port);
-    }
+    emit sigInit();
+    initSemaphore.acquire();  // Wait for initialization
 }
 
-void DataReceiver::onTimer()
+void DataReceiver::deinit()
 {
-    frameRate = (framesReceived * 1000) / RECEIVER_TIMER_PERIOD_MS;
-    framesReceived = 0;
-}
-
-// ----------------- BufferData class implementations ------------------
-
-BufferData::BufferData()
-    : buffer_size(0)
-    , raw_data(nullptr)
-    , cal_data(nullptr)
-{
-}
-
-BufferData::BufferData(int size)
-    : buffer_size(0)
-    , raw_data(nullptr)
-    , cal_data(nullptr)
-{
-    resize(size);
-}
-
-void BufferData::resize(int size)
-{
-    if (size == buffer_size)
-        return;
-
-    if (raw_data) {
-        delete[] raw_data;
-        raw_data = nullptr;
-    }
-    if (cal_data) {
-        delete[] cal_data;
-        cal_data = nullptr;
-    }
-
-    buffer_size = size;
-    raw_data = new unsigned short[size];
-    cal_data = new signed short[size];
-
-    memset(raw_data, 0, size * sizeof(unsigned short));
-    memset(cal_data, 0, size * sizeof(signed short));
-}
-
-BufferData::BufferData(const BufferData& master)
-    : buffer_size(0)
-    , raw_data(nullptr)
-    , cal_data(nullptr)
-{
-    sync_frame = master.sync_frame;
-    rms_frame  = master.rms_frame;
-    resize(master.buffer_size);
-
-    memcpy(raw_data, master.raw_data, buffer_size * sizeof(unsigned short));
-    memcpy(cal_data, master.cal_data, buffer_size * sizeof(signed short));
-}
-
-BufferData& BufferData::operator=(const BufferData& master)
-{
-    if (this == &master)
-        return *this;
-
-    sync_frame = master.sync_frame;
-    rms_frame  = master.rms_frame;
-    resize(master.buffer_size);
-
-    memcpy(raw_data, master.raw_data, buffer_size * sizeof(unsigned short));
-    memcpy(cal_data, master.cal_data, buffer_size * sizeof(signed short));
-
-    return *this;
-}
-
-BufferData::~BufferData()
-{
-    resize(0);
+    emit sigDeinit();
+    initSemaphore.acquire();  // Wait for deinitialization
 }

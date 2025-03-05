@@ -86,7 +86,6 @@ void DataReceiver::readData()
 
 
                     // Iterating over the number of "words"
-                    static int counter = 0;
 
                     for (int wordIndex = 0; wordIndex < sensorsPerBoard * DATA_SAMPLES_PER_SENSOR; wordIndex++)
                     {
@@ -97,16 +96,14 @@ void DataReceiver::readData()
                         {
                             data_to_push.raw_data[channelIndex] = 65535 - BYTES2SHORT(tmpBuffer + baseaddr3 + wordIndex * 4);
                             data_to_push.raw_data[channelIndex + 1] = 65535 - BYTES2SHORT(tmpBuffer + baseaddr3 + wordIndex * 4 + 2);
-
-
                         }
 
                         else
 
                         {
                         // Read calibrated values (from even words)
-                            data_to_push.cal_data[channelIndex]     = 65535- BYTES2SHORT(tmpBuffer + baseaddr3 + wordIndex * 4);
-                            data_to_push.cal_data[channelIndex + 1] = 65535- BYTES2SHORT(tmpBuffer + baseaddr3 + wordIndex * 4 + 2);
+                            data_to_push.cal_data[channelIndex]     = 65535 - BYTES2SHORT(tmpBuffer + baseaddr3 + wordIndex * 4);
+                            data_to_push.cal_data[channelIndex + 1] = 65535 - BYTES2SHORT(tmpBuffer + baseaddr3 + wordIndex * 4 + 2);
                         }
                     }
 

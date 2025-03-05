@@ -53,8 +53,7 @@ void EventBuilder::onNewData(DataReceiver* receiver) {
 
 void EventBuilder::processFrameData(BufferData &data) {
     if (data.buffer_size > 0) {
-        //std::cout << "Raw data[0]: " << data.raw_data[0]
-        //          << ", Cal data[0]: " << data.cal_data[0] << std::endl;
+        // Processing logic can be added here
     }
 }
 
@@ -78,6 +77,8 @@ int EventBuilder::findLowestId() {
 }
 
 void EventBuilder::logDataToFile() {
+    if (!logFile.isOpen()) return;
+
     logFile.write(reinterpret_cast<const char*>(&totalBoards), sizeof(unsigned short));
     logFile.write(reinterpret_cast<const char*>(channelCounts.constData()), totalBoards * sizeof(unsigned short));
 
@@ -89,6 +90,7 @@ void EventBuilder::logDataToFile() {
                       currentFrame[board].buffer_size * sizeof(signed short));
         logFile.write(reinterpret_cast<const char*>(&(currentFrame[board].rms_frame)), sizeof(RMSFrame));
     }
+    logFile.flush();
 }
 
 void EventBuilder::onInit() {
@@ -103,13 +105,18 @@ void EventBuilder::onStartLogging() {
     if (loggingData) onStopLogging();
 
     logFile.setFileName(logFileName);
-    logFile.open(QIODevice::WriteOnly);
+    if (!logFile.open(QIODevice::WriteOnly)) {
+        qDebug() << "Error opening log file: " << logFile.errorString();
+        return;
+    }
     loggingData = 1;
 }
 
 void EventBuilder::onStopLogging() {
     loggingData = 0;
-    logFile.close();
+    if (logFile.isOpen()) {
+        logFile.close();
+    }
 }
 
 void EventBuilder::init() {
@@ -155,14 +162,10 @@ void EventBuilder::startLogging(QString filename) {
 void EventBuilder::stopLogging() { emit sigStopLogging(); }
 
 void EventBuilder::setChannelCount(int sensor_nr, int nr_channels) {
-    std::cout << "HERE I AM" <<std::endl;
     if (sensor_nr >= 0 && sensor_nr < channelCounts.size()) {
         channelCounts[sensor_nr] = nr_channels;
-    } else {
-        qDebug() << "ERROR: setChannelCount() out of bounds! sensor_nr:" << sensor_nr << ", size:" << channelCounts.size();
     }
 }
-
 
 QByteArray EventBuilder::getNextData() {
     QMutexLocker locker(&mutex);

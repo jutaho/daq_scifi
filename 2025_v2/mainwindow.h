@@ -22,6 +22,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
@@ -32,22 +33,21 @@ public:
     QSettings* deviceSettings;
     int running = 0;
     int logging = 0;
-    int analysing = 0;
     void run();
     void stop();
     void startLogging();
     void stopLogging();
-    void startAnalysing();
-    void stopAnalysing();
     void startDisplay();
     void stopDisplay();
 
 public slots:
+
     void showEvent(QShowEvent *event);
     void closeEvent(QCloseEvent *event);
     void on_timer();
 
 protected:
+
     void log_separator();
     void setupHardware();
     void setupDeviceList();
@@ -71,6 +71,7 @@ private slots:
     void on_pushButton_exit_clicked();
 
 private:
+
     Ui::MainWindow *ui;
 
 };

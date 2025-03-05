@@ -79,7 +79,7 @@ public:
     {
         if (DialogTriggerSettings->objectName().isEmpty())
             DialogTriggerSettings->setObjectName("DialogTriggerSettings");
-        DialogTriggerSettings->resize(517, 281);
+        DialogTriggerSettings->resize(529, 301);
         buttonBox = new QDialogButtonBox(DialogTriggerSettings);
         buttonBox->setObjectName("buttonBox");
         buttonBox->setGeometry(QRect(90, 240, 341, 32));

@@ -54,7 +54,6 @@ public:
     QSpacerItem *horizontalSpacer;
     QPushButton *pushLogSettings;
     QPushButton *pushButton_exit;
-    QPushButton *pushAnalysing;
     QMenuBar *menuBar;
     QMenu *menuDevice;
     QMenu *menuSettings;
@@ -144,14 +143,10 @@ public:
         pushButton_exit = new QPushButton(centralWidget);
         pushButton_exit->setObjectName("pushButton_exit");
         pushButton_exit->setGeometry(QRect(760, 510, 80, 24));
-        pushAnalysing = new QPushButton(centralWidget);
-        pushAnalysing->setObjectName("pushAnalysing");
-        pushAnalysing->setEnabled(true);
-        pushAnalysing->setGeometry(QRect(90, 440, 161, 24));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName("menuBar");
-        menuBar->setGeometry(QRect(0, 0, 853, 22));
+        menuBar->setGeometry(QRect(0, 0, 853, 21));
         menuDevice = new QMenu(menuBar);
         menuDevice->setObjectName("menuDevice");
         menuSettings = new QMenu(menuBar);
@@ -201,7 +196,6 @@ public:
         pushDisplay->setText(QCoreApplication::translate("MainWindow", "Show display!", nullptr));
         pushLogSettings->setText(QCoreApplication::translate("MainWindow", "Log settings...", nullptr));
         pushButton_exit->setText(QCoreApplication::translate("MainWindow", "Quit", nullptr));
-        pushAnalysing->setText(QCoreApplication::translate("MainWindow", "Start Analysing!", nullptr));
         menuDevice->setTitle(QCoreApplication::translate("MainWindow", "Device", nullptr));
         menuSettings->setTitle(QCoreApplication::translate("MainWindow", "Settings", nullptr));
     } // retranslateUi

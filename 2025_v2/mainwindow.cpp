@@ -202,20 +202,6 @@ void MainWindow::startLogging()
     }
 }
 
-void MainWindow::startAnalysing(){
-    if (analysing)
-        stopAnalysing();
-
-    analysing = 1;
-
-}
-
-void MainWindow::stopAnalysing()
-{
-    analysing = 0;
-
-}
-
 
 void MainWindow::stopLogging()
 {

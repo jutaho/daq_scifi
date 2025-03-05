@@ -83,8 +83,10 @@ void EventBuilder::logDataToFile() {
 
     for (int board = 0; board < totalBoards; board++) {
         logFile.write(reinterpret_cast<const char*>(&(currentFrame[board].sync_frame)), sizeof(SyncFrame));
-        logFile.write(reinterpret_cast<const char*>(currentFrame[board].raw_data), currentFrame[board].buffer_size * sizeof(signed short));
-        logFile.write(reinterpret_cast<const char*>(currentFrame[board].cal_data), currentFrame[board].buffer_size * sizeof(unsigned short));
+        logFile.write(reinterpret_cast<const char*>(currentFrame[board].raw_data),
+                      currentFrame[board].buffer_size * sizeof(unsigned short));
+        logFile.write(reinterpret_cast<const char*>(currentFrame[board].cal_data),
+                      currentFrame[board].buffer_size * sizeof(signed short));
         logFile.write(reinterpret_cast<const char*>(&(currentFrame[board].rms_frame)), sizeof(RMSFrame));
     }
 }

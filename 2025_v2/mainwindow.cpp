@@ -46,8 +46,8 @@ void MainWindow::showEvent(QShowEvent * event)
         status1.setReadOnly(true);
         statusBar()->addWidget(&status1,2);
 
-        std::cout << "Hello, World!" << std::endl;
-        std::cout << "Everyone likes log windows!" << std::endl;
+        std::cout << "Dzien dobry, wiewiorki i bobry \n" << std::endl;
+
         log_separator();
 
         timer.start(100);
@@ -64,7 +64,7 @@ void MainWindow::closeEvent(QCloseEvent * event)
     QMainWindow::closeEvent(event);
 }
 
-//******************** Debug window *************************
+//******************** Debug window *******************
 
 //put horizontal line
 void MainWindow::log_separator()
@@ -86,6 +86,7 @@ void MainWindow::setupHardware()
     deviceSettings->beginGroup("Global");
     int nr_devices = deviceSettings->value("NrDevices").toInt();
     ip2num(deviceSettings->value("HostIp").toString(), ip);
+
     for (int i = 0; i < 4; i++)
         dc.own_ip[i] = ip[i];
 
@@ -110,6 +111,7 @@ void MainWindow::setupHardware()
         dc.device_id = dev_nr;
         dc.hardware_ver = deviceSettings->value("HardwareVer").toInt();
         ip2num(deviceSettings->value("IP").toString(), ip);
+
         for (int i = 0; i < 4; i++)
             dc.device_ip[i] = ip[i];
         dc.master = deviceSettings->value("Master").toInt();
@@ -186,7 +188,7 @@ void MainWindow::startLogging()
 
     if (filename.length())
     {
-            //Make copy of current settings
+        //Make copy of current settings
         QString ini_filename = filename/*.left(filename.lastIndexOf(QString(".")))*/ + QString(".ini");
         QSettings* settings_copy = new QSettings(ini_filename,QSettings::IniFormat);
         copyQSettings (deviceSettings, settings_copy);
@@ -222,12 +224,14 @@ void MainWindow::stopLogging()
     ui->pushLogging->setText("Start logging!");
 }
 
+
 void MainWindow::startDisplay()
 {
     ui->pushDisplay->setText("Hide display!");
     theDisplay->setup(theHW);
     theDisplay->show();
 }
+
 
 void MainWindow::stopDisplay()
 {
@@ -246,6 +250,7 @@ void MainWindow::on_timer()
         theDisplay->plot();
 }
 
+
 void MainWindow::on_pushLogSettings_pressed()
 {
     DialogLogSettings dlg;
@@ -259,6 +264,7 @@ void MainWindow::on_pushLogSettings_pressed()
     }
 }
 
+
 void MainWindow::on_actionConnect_triggered()
 {
     stop();
@@ -266,12 +272,14 @@ void MainWindow::on_actionConnect_triggered()
     ui->pushRun->setEnabled(true);
 }
 
+
 void MainWindow::on_actionDisconnect_triggered()
 {
     stop();
     theHW->disconnectDevices();
     ui->pushRun->setEnabled(false);
 }
+
 
 void MainWindow::on_actionHost_IP_triggered()
 {
@@ -285,6 +293,7 @@ void MainWindow::on_actionHost_IP_triggered()
     }
 }
 
+
 void MainWindow::on_actionTrigger_config_triggered()
 {
     DialogTriggerSettings dlg;
@@ -296,6 +305,7 @@ void MainWindow::on_actionTrigger_config_triggered()
         setupHardware();
     }
 }
+
 
 void MainWindow::on_actionDevices_triggered()
 {
@@ -312,6 +322,7 @@ void MainWindow::on_actionDevices_triggered()
     }
 }
 
+
 void MainWindow::on_pushRun_pressed()
 {
     if (!running)
@@ -319,6 +330,7 @@ void MainWindow::on_pushRun_pressed()
     else
         stop();
 }
+
 
 void MainWindow::on_pushLogging_pressed()
 {
@@ -340,8 +352,6 @@ void MainWindow::on_pushDisplay_pressed()
 
 
 
-
-
 void MainWindow::on_pushButton_exit_clicked()
 {
     if(running) stop();
@@ -349,6 +359,6 @@ void MainWindow::on_pushButton_exit_clicked()
 
     theHW->disconnectDevices();
 
-    QApplication::exit(); //close the application;
+    QApplication::exit();
 }
 

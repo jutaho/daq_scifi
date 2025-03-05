@@ -13,11 +13,6 @@ int main(int argc, char *argv[])
     // Debug: Display application directory path
     qDebug() << "App path:" << qApp->applicationDirPath();
 
-    // Path to the default stylesheet
-    //QString stylesheetPath = qApp->applicationDirPath() + "/styles/theDark.qss";
-
-    // Apply the default stylesheet
-    //applyStyle(stylesheetPath);
 
     MainWindow w;
     w.show();

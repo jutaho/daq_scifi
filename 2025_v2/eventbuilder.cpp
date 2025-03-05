@@ -155,6 +155,7 @@ void EventBuilder::startLogging(QString filename) {
 void EventBuilder::stopLogging() { emit sigStopLogging(); }
 
 void EventBuilder::setChannelCount(int sensor_nr, int nr_channels) {
+    std::cout << "HERE I AM" <<std::endl;
     if (sensor_nr >= 0 && sensor_nr < channelCounts.size()) {
         channelCounts[sensor_nr] = nr_channels;
     } else {

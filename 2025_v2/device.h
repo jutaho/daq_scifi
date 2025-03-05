@@ -103,6 +103,7 @@ protected:
     int ctrlSetMasterDelay(int tint);
     int ctrlSetSlaveDelay(int tint);
     int ctrlSetClusterThreshold(int threshold);
+
 protected slots:
     void onConnected();
     void onSocketError(QAbstractSocket::SocketError socketError);

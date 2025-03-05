@@ -1,4 +1,5 @@
 #include "hw.h"
+
 HW::HW(QObject *parent) : QObject(parent), eventBuilder()// , networkThread(eventBuilder)
 {
 
@@ -21,11 +22,13 @@ HW::~HW()
 
 }
 
+
 Device& HW::operator[](int nr)
 {
     return *(devices[nr]);
 
 }
+
 
 void HW::addDevices(int nr_devices)
 {
@@ -38,7 +41,6 @@ void HW::addDevices(int nr_devices)
 }
 
 
-
 void HW::removeDevices()
 {
     eventBuilder.deleteSources();
@@ -48,12 +50,6 @@ void HW::removeDevices()
 }
 
 
-void HW::configureDevice(int dev_nr, DeviceConfig dc)
-{
-    (*this)[dev_nr].configure(dc);
-    eventBuilder.setChannelCount(dev_nr, dc.max_channels());
-}
-
 
 void HW::connectDevices()
 {
@@ -61,6 +57,14 @@ void HW::connectDevices()
     for (int i = 0; i < devices.length(); i++)
         devices[i]->connectDevice();
 }
+
+
+void HW::configureDevice(int dev_nr, DeviceConfig dc)
+{
+    (*this)[dev_nr].configure(dc);
+    eventBuilder.setChannelCount(dev_nr, dc.max_channels());
+}
+
 
 void HW::disconnectDevices()
 {

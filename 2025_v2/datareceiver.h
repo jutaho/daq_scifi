@@ -9,7 +9,7 @@
 #include "cbuffer.h"
 
 #define DATA_PACKET_HEADER_SIZE     6
-#define DATA_SYNC_HEADER_SIZE       6 // add up to 12 in total
+#define DATA_SYNC_HEADER_SIZE       6
 #define DATA_RMS_FRAME_SIZE         16
 #define DATA_BYTES_PER_SAMPLE       4
 #define DATA_SAMPLES_PER_SENSOR     64
